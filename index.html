@@ -4,166 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Valentine App</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #ffe6eb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      flex-direction: column;
-    }
-    .question {
-      font-size: 2em;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    button {
-      font-size: 1.2em;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: #ff4d6d;
-      color: white;
-      transition: transform 0.3s ease, font-size 0.3s ease;
-    }
-    button:hover {
-      background: #e63e5c;
-    }
-    #final {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: white;
-      font-size: 2em;
-      height: 100vh;
-      width: 100vw;
-      background: linear-gradient(to top, #2c3e50, #3498db); /* mountain-like */
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 5;
-      overflow: hidden;
-    }
-    .book {
-      position: absolute;
-      width: 40px;
-      height: 30px;
-      background: #7b3f00;
-      transform: rotate(0deg);
-      animation: fly 6s linear infinite;
-    }
-    .book:before {
-      content: "";
-      position: absolute;
-      width: 20px;
-      height: 30px;
-      left: -20px;
-      background: #d4c5a0;
-    }
-    @keyframes fly {
-      from { top: -50px; transform: rotate(0deg); }
-      to { top: 100vh; transform: rotate(360deg); }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="quiz">
-    <div class="question" id="question">Will you be my valentine?</div>
+  <div class="container">
+    <h1 id="question">Will you be my Valentine?</h1>
     <div class="buttons">
       <button id="yesBtn">Yes</button>
       <button id="noBtn">No</button>
     </div>
   </div>
 
-  <div id="final">
-    <p>I already gave you my heart and Nose</p>
-    <p>Now my heart and Nose is yours</p>
-    <div id="books"></div>
+  <!-- Final screen -->
+  <div class="final hidden">
+    <h1>Now my Heart and Nose is yours ❤️</h1>
+    <img src="couple.png" alt="Couple Hugging" class="couple">
+    <div class="hearts"></div>
   </div>
 
-  <script>
-    const questions = [
-      "Will you be my valentine?",
-      "Will you be my valentine?",
-      "Will you be my valentine?",
-      "Will you be my valentine?",
-      "Will you be my valentine?",
-      "Will you be my valentine?",
-      "Will you be my valentine?",
-      "Will you be my valentine?",
-      "Will you be my valentine?"
-    ];
-    const options = [
-      ["Yes", "No"],
-      ["Yes", "Don't lie"],
-      ["Yes", "Na books vangi tharan"],
-      ["Yes", "Namba onna tour polam"],
-      ["Yes", "We'll make rasam together"],
-      ["Yes", "Namba gym polam"],
-      ["Yes", "I have biceps"],
-      ["Yes", "Namaku future la 6 packs vendama"],
-      ["Yes", "Yes"]
-    ];
-
-    let index = 0;
-    let yesSize = 1;
-
-    const questionEl = document.getElementById('question');
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
-    const finalScreen = document.getElementById('final');
-    const quiz = document.getElementById('quiz');
-    const booksContainer = document.getElementById('books');
-
-    function loadQuestion() {
-      questionEl.textContent = questions[index];
-      yesBtn.textContent = options[index][0];
-      noBtn.textContent = options[index][1];
-    }
-
-    noBtn.addEventListener('click', () => {
-      if (index < questions.length - 1) {
-        index++;
-        loadQuestion();
-        yesSize += 0.2;
-        yesBtn.style.transform = `scale(${yesSize})`;
-      } else {
-        showFinal();
-      }
-    });
-
-    yesBtn.addEventListener('click', () => {
-      showFinal();
-    });
-
-    function showFinal() {
-      quiz.style.display = 'none';
-      finalScreen.style.display = 'flex';
-      // Generate flying books
-      for (let i = 0; i < 20; i++) {
-        const book = document.createElement('div');
-        book.classList.add('book');
-        book.style.left = Math.random() * window.innerWidth + 'px';
-        book.style.animationDuration = (3 + Math.random() * 4) + 's';
-        booksContainer.appendChild(book);
-      }
-    }
-
-    loadQuestion();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
