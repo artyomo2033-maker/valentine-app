@@ -1,185 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Valentine App</title>
   <style>
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       margin: 0;
-      text-align: center;
-      color: #5a0a27;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #ffe6eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      flex-direction: column;
     }
-    #question {
-      font-size: 2.2em;
+    .question {
+      font-size: 2em;
       margin-bottom: 20px;
-      font-weight: bold;
+      text-align: center;
     }
     .buttons {
       display: flex;
       gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
     button {
-      padding: 15px 30px;
       font-size: 1.2em;
+      padding: 10px 20px;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-    #yesBtn {
       background: #ff4d6d;
       color: white;
+      transition: transform 0.3s ease, font-size 0.3s ease;
     }
-    #yesBtn:hover {
-      background: #ff3355;
+    button:hover {
+      background: #e63e5c;
     }
-    #noBtn {
-      background: white;
-      color: #ff4d6d;
-      border: 2px solid #ff4d6d;
-    }
-    #noBtn:hover {
-      background: #ffe6eb;
-    }
-    #finalMessage {
+    #final {
       display: none;
-      font-size: 2em;
-      margin-top: 20px;
-    }
-    #extraMessage {
-      display: none;
-      font-size: 1.5em;
-      margin-top: 15px;
-      color: #b3003c;
-      font-style: italic;
-    }
-    /* Dancing nose */
-    #nose {
-      display: none;
-      margin-top: 40px;
-      width: 120px;
-      height: 180px;
-      position: relative;
-      animation: dance 1s infinite alternate;
-    }
-    #nose .body {
-      width: 60px;
-      height: 100px;
-      background: #f2c9a0;
-      border-radius: 50% 50% 40% 40%;
-      margin: 0 auto;
-    }
-    #nose .leg {
-      width: 10px;
-      height: 50px;
-      background: black;
-      position: absolute;
-      bottom: 0;
-    }
-    #nose .leg.left { left: 30px; }
-    #nose .leg.right { right: 30px; }
-    #nose .arm {
-      width: 50px;
-      height: 5px;
-      background: black;
-      position: absolute;
-      top: 40px;
-    }
-    #nose .arm.left { left: -50px; transform-origin: right; animation: wave 1s infinite alternate; }
-    #nose .arm.right { right: -50px; transform-origin: left; animation: wave 1s infinite alternate-reverse; }
-    @keyframes dance {
-      from { transform: rotate(-10deg); }
-      to { transform: rotate(10deg); }
-    }
-    @keyframes wave {
-      from { transform: rotate(-20deg); }
-      to { transform: rotate(20deg); }
-    }
-  </style>
-</head>
-<body>
-  <div id="question">Will you be my valentine?</div>
-  <div class="buttons">
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
-  </div>
-  <div id="finalMessage"></div>
-  <div id="extraMessage">Now my heart and Nose is yours ❤️👃</div>
-  <div id="nose">
-    <div class="arm left"></div>
-    <div class="arm right"></div>
-    <div class="body"></div>
-    <div class="leg left"></div>
-    <div class="leg right"></div>
-  </div>
-  <script>
-    const questions = [
-      {q: "Will you be my valentine?", opts: ["Yes", "No"]},
-      {q: "Will you be my valentine?", opts: ["Yes", "Don't lie 😘"]},
-      {q: "Will you be my valentine?", opts: ["Yes", "Na books vangi tharan"]},
-      {q: "Will you be my valentine?", opts: ["Yes", "Namba onna tour polam"]},
-      {q: "Will you be my valentine?", opts: ["Yes", "We'll make rasam together"]},
-      {q: "Will you be my valentine?", opts: ["Yes", "Namba gym polam"]},
-      {q: "Will you be my valentine?", opts: ["Yes", "I have biceps"]},
-      {q: "Will you be my valentine?", opts: ["Yes", "Namaku future la 6 packs vendama"]},
-      {q: "Will you be my valentine?", opts: ["Yes", "Yes"]}
-    ];
-    let index = 0;
-    let yesBtn = document.getElementById("yesBtn");
-    let noBtn = document.getElementById("noBtn");
-    let question = document.getElementById("question");
-    let finalMessage = document.getElementById("finalMessage");
-    let extraMessage = document.getElementById("extraMessage");
-    let nose = document.getElementById("nose");
-
-    function loadQuestion(i) {
-      question.innerText = questions[i].q;
-      yesBtn.innerText = questions[i].opts[0];
-      noBtn.innerText = questions[i].opts[1];
-    }
-
-    noBtn.addEventListener("click", () => {
-      // Enlarge Yes button each time No is clicked
-      let currentScale = parseFloat(yesBtn.style.transform.replace(/[^0-9.]/g, "")) || 1;
-      yesBtn.style.transform = `scale(${currentScale + 0.3})`;
-      if (index < questions.length - 1) {
-        index++;
-        loadQuestion(index);
-      } else {
-        showFinal();
-      }
-    });
-
-    yesBtn.addEventListener("click", () => {
-      if (index < questions.length - 1) {
-        index++;
-        loadQuestion(index);
-      } else {
-        showFinal();
-      }
-    });
-
-    function showFinal() {
-      document.querySelector(".buttons").style.display = "none";
-      question.style.display = "none";
-      finalMessage.style.display = "block";
-      finalMessage.innerHTML = "I already gave you my heart and Nose ❤️👃";
-      nose.style.display = "block";
-      setTimeout(() => {
-        extraMessage.style.display = "block";
-      }, 2000);
-    }
-
-    loadQuestion(index);
-  </script>
-</body>
-</html>
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: w
