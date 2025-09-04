@@ -1,50 +1,165 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Be My Valentine 💘</title>
-  <meta name="description" content="A playful Valentine interaction with a sweet video reveal." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💘</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: pink;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    #question {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .buttons {
+      display: flex;
+      gap: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    #yesBtn {
+      background: red;
+      color: white;
+    }
+    #noBtn {
+      background: white;
+      color: red;
+      border: 2px solid red;
+    }
+    #finalMessage {
+      display: none;
+      font-size: 2em;
+      margin-top: 20px;
+    }
+    /* Dancing nose */
+    #nose {
+      display: none;
+      margin-top: 40px;
+      width: 120px;
+      height: 180px;
+      position: relative;
+      animation: dance 1s infinite alternate;
+    }
+    #nose .body {
+      width: 60px;
+      height: 100px;
+      background: #f2c9a0;
+      border-radius: 50% 50% 40% 40%;
+      margin: 0 auto;
+    }
+    #nose .leg {
+      width: 10px;
+      height: 50px;
+      background: black;
+      position: absolute;
+      bottom: 0;
+    }
+    #nose .leg.left { left: 30px; }
+    #nose .leg.right { right: 30px; }
+    #nose .arm {
+      width: 50px;
+      height: 5px;
+      background: black;
+      position: absolute;
+      top: 40px;
+    }
+    #nose .arm.left { left: -50px; transform-origin: right; animation: wave 1s infinite alternate; }
+    #nose .arm.right { right: -50px; transform-origin: left; animation: wave 1s infinite alternate-reverse; }
+    @keyframes dance {
+      from { transform: rotate(-10deg); }
+      to { transform: rotate(10deg); }
+    }
+    @keyframes wave {
+      from { transform: rotate(-20deg); }
+      to { transform: rotate(20deg); }
+    }
+  </style>
 </head>
 <body>
-  <main class="container">
-    <section id="card" class="card">
-      <h1 id="prompt" class="title">Will you be my Valentine? 💖</h1>
-      <div class="buttons">
-        <button id="yesBtn" class="btn yes">Yes 💕</button>
-        <button id="noBtn" class="btn no">No 🙈</button>
-      </div>
-      <p class="hint">Tap <span class="kbd">Yes</span> to make my day... or say <span class="kbd">No</span> and see what happens 😉</p>
-    </section>
+  <div id="question">Will you be my valentine?</div>
+  <div class="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+  <div id="finalMessage"></div>
+  <div id="nose">
+    <div class="arm left"></div>
+    <div class="arm right"></div>
+    <div class="body"></div>
+    <div class="leg left"></div>
+    <div class="leg right"></div>
+  </div>
+  <script>
+    const questions = [
+      {q: "Will you be my valentine?", opts: ["Yes", "No"]},
+      {q: "Will you be my valentine?", opts: ["Yes", "Don't lie 😘"]},
+      {q: "Will you be my valentine?", opts: ["Yes", "Na books vangi tharan"]},
+      {q: "Will you be my valentine?", opts: ["Yes", "Namba onna tour polam"]},
+      {q: "Will you be my valentine?", opts: ["Yes", "We'll make rasam together"]},
+      {q: "Will you be my valentine?", opts: ["Yes", "Namba gym polam"]},
+      {q: "Will you be my valentine?", opts: ["Yes", "I have biceps"]},
+      {q: "Will you be my valentine?", opts: ["Yes", "Namaku future la 6 packs vendama"]},
+      {q: "Will you be my valentine?", opts: ["Yes", "Yes"]}
+    ];
+    let index = 0;
+    let yesBtn = document.getElementById("yesBtn");
+    let noBtn = document.getElementById("noBtn");
+    let question = document.getElementById("question");
+    let finalMessage = document.getElementById("finalMessage");
+    let nose = document.getElementById("nose");
 
-    <section id="reveal" class="reveal hidden" aria-hidden="true">
-      <h2 class="reveal-title">Yay! 🥰</h2>
-      <p class="reveal-text">You just made my Valentine’s Day perfect ❤️</p>
+    function loadQuestion(i) {
+      question.innerText = questions[i].q;
+      yesBtn.innerText = questions[i].opts[0];
+      noBtn.innerText = questions[i].opts[1];
+    }
 
-      <div class="video-wrap">
-        <!-- Put your own file at ./assets/valentine.mp4 -->
-        <video id="valVideo" class="video" controls playsinline>
-          <source src="assets/valentine.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <p class="video-note">
-          If the video doesn't play, add your file at <code>assets/valentine.mp4</code> or replace the <code>src</code>.
-        </p>
-      </div>
+    noBtn.addEventListener("click", () => {
+      // Enlarge Yes button each time No is clicked
+      let currentScale = parseFloat(yesBtn.style.transform.replace(/[^0-9.]/g, "")) || 1;
+      yesBtn.style.transform = `scale(${currentScale + 0.3})`;
+      if (index < questions.length - 1) {
+        index++;
+        loadQuestion(index);
+      } else {
+        showFinal();
+      }
+    });
 
-      <button id="replayBtn" class="btn ghost">Replay hearts ✨</button>
-      <a class="btn link" href="./index.html">Back to start</a>
-    </section>
-  </main>
+    yesBtn.addEventListener("click", () => {
+      if (index < questions.length - 1) {
+        index++;
+        loadQuestion(index);
+      } else {
+        showFinal();
+      }
+    });
 
-  <!-- Decorative heart container -->
-  <div id="hearts" class="hearts"></div>
+    function showFinal() {
+      document.querySelector(".buttons").style.display = "none";
+      question.style.display = "none";
+      finalMessage.style.display = "block";
+      finalMessage.innerHTML = "I already gave you my heart and Nose ❤️👃";
+      nose.style.display = "block";
+    }
 
-  <script src="script.js"></script>
+    loadQuestion(index);
+  </script>
 </body>
 </html>
