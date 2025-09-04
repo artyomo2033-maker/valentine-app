@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Valentine App</title>
   <style>
     body {
@@ -12,136 +12,155 @@
       justify-content: center;
       align-items: center;
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(270deg, #ff6ec4, #7873f5, #42e695, #ff9472);
-      background-size: 800% 800%;
-      animation: gradientShift 15s ease infinite;
-      color: white;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      color: #fff0f5;
       text-align: center;
     }
-    @keyframes gradientShift {
+    @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
       100% {background-position: 0% 50%;}
     }
-    .container {
-      max-width: 500px;
-      padding: 20px;
-    }
     h1 {
-      font-size: 2rem;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
-      margin-bottom: 20px;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 6px #ff69b4;
+      margin-bottom: 40px;
     }
     .buttons {
       display: flex;
-      justify-content: center;
       gap: 20px;
+      justify-content: center;
       margin-top: 20px;
     }
     button {
-      padding: 12px 24px;
+      padding: 15px 30px;
       border: none;
-      border-radius: 10px;
+      border-radius: 50px;
       font-size: 1.2rem;
       cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    #yes {
-      background: #4CAF50;
-      color: white;
-      box-shadow: 0 0 10px rgba(255,255,255,0.6);
+    .yes {
+      background: #00ffcc;
+      color: #003333;
+      box-shadow: 0 0 15px #00ffcc;
     }
-    #yes:hover {
-      background: #66BB6A;
-      transform: scale(1.1);
+    .no {
+      background: #ff7b00;
+      color: #fff;
+      box-shadow: 0 0 15px #ff7b00;
     }
-    #no {
-      background: #FF7043;
-      color: black;
+    .no:hover {
+      animation: wobble 0.5s;
     }
-    #no:hover {
-      background: #FF8A65;
-      transform: rotate(-5deg);
+    @keyframes wobble {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      50% { transform: rotate(-5deg); }
+      75% { transform: rotate(5deg); }
+      100% { transform: rotate(0deg); }
     }
     .pulse {
-      animation: pulse 0.6s ease;
+      animation: pulse 0.6s;
     }
     @keyframes pulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.4); }
+      50% { transform: scale(1.3); }
       100% { transform: scale(1); }
     }
     .nose {
-      font-size: 3rem;
-      margin-top: 30px;
-      display: inline-block;
-      animation: bounce 1s infinite;
+      margin-top: 50px;
+      width: 100px;
+      height: 120px;
+      background: #ffccaa;
+      border-radius: 50% 50% 60% 60%;
+      position: relative;
+      animation: bounce 1.5s infinite;
     }
+    .nose::before, .nose::after {
+      content: '';
+      position: absolute;
+      bottom: 20px;
+      width: 20px;
+      height: 20px;
+      background: #ffb38a;
+      border-radius: 50%;
+    }
+    .nose::before { left: 10px; }
+    .nose::after { right: 10px; }
+    .arm, .leg {
+      position: absolute;
+      width: 40px;
+      height: 5px;
+      background: #6a0dad;
+    }
+    .arm.left { top: 40px; left: -45px; transform: rotate(30deg); }
+    .arm.right { top: 40px; right: -45px; transform: rotate(-30deg); }
+    .leg.left { bottom: -20px; left: 10px; transform: rotate(20deg); }
+    .leg.right { bottom: -20px; right: 10px; transform: rotate(-20deg); }
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-20px); }
     }
-    .final-text {
-      margin-top: 20px;
-      font-size: 1.4rem;
+    .final-line {
+      margin-top: 30px;
+      font-size: 1.5rem;
       font-weight: bold;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+      color: #fff0f5;
+      text-shadow: 1px 1px 6px #ff69b4;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div id="app">
     <h1 id="question">Will you be my Valentine?</h1>
     <div class="buttons">
-      <button id="yes">Yes</button>
-      <button id="no">No</button>
+      <button class="yes" onclick="sayYes()">Yes</button>
+      <button class="no" onclick="sayNo()">No</button>
     </div>
-    <div id="nose" class="nose" style="display:none;">👃👐🦵</div>
-    <div id="finalText" class="final-text"></div>
+    <div class="nose">
+      <div class="arm left"></div>
+      <div class="arm right"></div>
+      <div class="leg left"></div>
+      <div class="leg right"></div>
+    </div>
+    <div class="final-line" id="finalLine"></div>
   </div>
-
   <script>
     const questions = [
-      "Will you be my Valentine?",
-      "Will you be my Valentine? 💋 (Don't lie)",
-      "Will you be my Valentine? 📚 (Na books vangi tharan)",
-      "Will you be my Valentine? 🌍 (Namba onna tour polam)",
-      "Will you be my Valentine? 🍲 (We'll make rasam together)",
-      "Will you be my Valentine? 💪 (Namba gym polam)",
-      "Will you be my Valentine? 💪 (I have biceps)",
-      "Will you be my Valentine? 🏋️ (Namaku future la 6 packs vendama)",
-      "Will you be my Valentine? 👃 (I'll give you nose)",
-      "Will you be my Valentine? ❤️ (Yes / Yes)"
+      "Will you be my valentine?",
+      "Will you be my valentine 💋 (don't lie)?",
+      "Will you be my valentine (na books vangi tharan)?",
+      "Will you be my valentine (namba onna tour polam)?",
+      "Will you be my valentine (we'll make rasam together)?",
+      "Will you be my valentine (namba gym polam)?",
+      "Will you be my valentine (I have biceps)?",
+      "Will you be my valentine (namaku future la 6 packs vendama)?",
+      "Will you be my valentine (ill give you nose)?",
+      "Will you be my valentine?"
     ];
+    let index = 0;
 
-    let currentQuestion = 0;
-    const questionEl = document.getElementById("question");
-    const yesBtn = document.getElementById("yes");
-    const noBtn = document.getElementById("no");
-    const noseEl = document.getElementById("nose");
-    const finalTextEl = document.getElementById("finalText");
-
-    noBtn.addEventListener("click", () => {
-      yesBtn.classList.add("pulse");
-      setTimeout(() => yesBtn.classList.remove("pulse"), 600);
-      if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        questionEl.textContent = questions[currentQuestion];
-      }
-      if (currentQuestion === questions.length - 1) {
-        noBtn.style.display = "none";
-      }
-    });
-
-    yesBtn.addEventListener("click", () => {
-      if (currentQuestion === questions.length - 1) {
-        noseEl.style.display = "block";
-        finalTextEl.textContent = "I already gave you my heart and Nose 💖👃";
+    function sayNo() {
+      const yesBtn = document.querySelector('.yes');
+      yesBtn.classList.add('pulse');
+      setTimeout(() => yesBtn.classList.remove('pulse'), 600);
+      if (index < questions.length - 1) {
+        index++;
+        document.getElementById("question").innerText = questions[index];
       } else {
-        currentQuestion++;
-        questionEl.textContent = questions[currentQuestion];
+        document.getElementById("question").innerText = questions[index];
+        document.getElementById("finalLine").innerText = "I already gave you my heart and Nose";
       }
-    });
+    }
+
+    function sayYes() {
+      document.getElementById("question").innerText = "Yay! 💖 Happy Valentine!";
+      document.querySelector(".buttons").style.display = "none";
+      document.getElementById("finalLine").innerText = "I already gave you my heart and Nose";
+    }
   </script>
 </body>
 </html>
