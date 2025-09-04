@@ -8,7 +8,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: pink;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -16,6 +16,8 @@
       height: 100vh;
       margin: 0;
       text-align: center;
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
     }
     #question {
       font-size: 2em;
@@ -29,65 +31,82 @@
       padding: 15px 30px;
       font-size: 1.2em;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
     #yesBtn {
-      background: red;
+      background: #28a745;
       color: white;
     }
+    #yesBtn:hover {
+      background: #218838;
+      box-shadow: 0 0 15px #28a745;
+    }
     #noBtn {
-      background: white;
-      color: red;
-      border: 2px solid red;
+      background: orange;
+      color: black;
+    }
+    #noBtn:hover {
+      animation: shake 0.5s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    .pulse {
+      animation: pulse 0.5s ease;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(1); }
     }
     #finalMessage {
       display: none;
       font-size: 2em;
       margin-top: 20px;
     }
-    /* Dancing nose */
+    /* Bouncing Nose */
     #nose {
       display: none;
       margin-top: 40px;
-      width: 120px;
-      height: 180px;
+      width: 100px;
+      height: 150px;
       position: relative;
-      animation: dance 1s infinite alternate;
+      animation: bounce 1s infinite alternate;
     }
     #nose .body {
       width: 60px;
-      height: 100px;
+      height: 90px;
       background: #f2c9a0;
       border-radius: 50% 50% 40% 40%;
       margin: 0 auto;
     }
     #nose .leg {
-      width: 10px;
-      height: 50px;
+      width: 8px;
+      height: 40px;
       background: black;
       position: absolute;
       bottom: 0;
     }
-    #nose .leg.left { left: 30px; }
-    #nose .leg.right { right: 30px; }
+    #nose .leg.left { left: 25px; }
+    #nose .leg.right { right: 25px; }
     #nose .arm {
-      width: 50px;
+      width: 40px;
       height: 5px;
       background: black;
       position: absolute;
-      top: 40px;
+      top: 30px;
     }
-    #nose .arm.left { left: -50px; transform-origin: right; animation: wave 1s infinite alternate; }
-    #nose .arm.right { right: -50px; transform-origin: left; animation: wave 1s infinite alternate-reverse; }
-    @keyframes dance {
-      from { transform: rotate(-10deg); }
-      to { transform: rotate(10deg); }
-    }
-    @keyframes wave {
-      from { transform: rotate(-20deg); }
-      to { transform: rotate(20deg); }
+    #nose .arm.left { left: -40px; }
+    #nose .arm.right { right: -40px; }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-20px); }
     }
   </style>
 </head>
@@ -131,9 +150,10 @@
     }
 
     noBtn.addEventListener("click", () => {
-      // Enlarge Yes button each time No is clicked
-      let currentScale = parseFloat(yesBtn.style.transform.replace(/[^0-9.]/g, "")) || 1;
-      yesBtn.style.transform = `scale(${currentScale + 0.3})`;
+      yesBtn.classList.remove("pulse");
+      void yesBtn.offsetWidth; // restart animation
+      yesBtn.classList.add("pulse");
+
       if (index < questions.length - 1) {
         index++;
         loadQuestion(index);
