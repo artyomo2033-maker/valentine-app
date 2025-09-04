@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Be My Valentine 💘</title>
+  <meta name="description" content="A playful Valentine interaction with a sweet video reveal." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💘</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <section id="card" class="card">
+      <h1 id="prompt" class="title">Will you be my Valentine? 💖</h1>
+      <div class="buttons">
+        <button id="yesBtn" class="btn yes">Yes 💕</button>
+        <button id="noBtn" class="btn no">No 🙈</button>
+      </div>
+      <p class="hint">Tap <span class="kbd">Yes</span> to make my day... or say <span class="kbd">No</span> and see what happens 😉</p>
+    </section>
+
+    <section id="reveal" class="reveal hidden" aria-hidden="true">
+      <h2 class="reveal-title">Yay! 🥰</h2>
+      <p class="reveal-text">You just made my Valentine’s Day perfect ❤️</p>
+
+      <div class="video-wrap">
+        <!-- Put your own file at ./assets/valentine.mp4 -->
+        <video id="valVideo" class="video" controls playsinline>
+          <source src="assets/valentine.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <p class="video-note">
+          If the video doesn't play, add your file at <code>assets/valentine.mp4</code> or replace the <code>src</code>.
+        </p>
+      </div>
+
+      <button id="replayBtn" class="btn ghost">Replay hearts ✨</button>
+      <a class="btn link" href="./index.html">Back to start</a>
+    </section>
+  </main>
+
+  <!-- Decorative heart container -->
+  <div id="hearts" class="hearts"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
