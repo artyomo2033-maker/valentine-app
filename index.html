@@ -47,4 +47,33 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: w
+      color: white;
+      font-size: 2em;
+      height: 100vh;
+      width: 100vw;
+      background: linear-gradient(to top, #2c3e50, #3498db); /* mountain-like */
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      overflow: hidden;
+    }
+    .book {
+      position: absolute;
+      width: 40px;
+      height: 30px;
+      background: #7b3f00;
+      transform: rotate(0deg);
+      animation: fly 6s linear infinite;
+    }
+    .book:before {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 30px;
+      left: -20px;
+      background: #d4c5a0;
+    }
+    @keyframes fly {
+      from { top: -50px; transform: rotate(0deg); }
+      to { top: 100vh; transform
