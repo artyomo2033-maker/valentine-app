@@ -76,4 +76,94 @@
     }
     @keyframes fly {
       from { top: -50px; transform: rotate(0deg); }
-      to { top: 100vh; transform
+      to { top: 100vh; transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz">
+    <div class="question" id="question">Will you be my valentine?</div>
+    <div class="buttons">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+
+  <div id="final">
+    <p>I already gave you my heart and Nose</p>
+    <p>Now my heart and Nose is yours</p>
+    <div id="books"></div>
+  </div>
+
+  <script>
+    const questions = [
+      "Will you be my valentine?",
+      "Will you be my valentine?",
+      "Will you be my valentine?",
+      "Will you be my valentine?",
+      "Will you be my valentine?",
+      "Will you be my valentine?",
+      "Will you be my valentine?",
+      "Will you be my valentine?",
+      "Will you be my valentine?"
+    ];
+    const options = [
+      ["Yes", "No"],
+      ["Yes", "Don't lie"],
+      ["Yes", "Na books vangi tharan"],
+      ["Yes", "Namba onna tour polam"],
+      ["Yes", "We'll make rasam together"],
+      ["Yes", "Namba gym polam"],
+      ["Yes", "I have biceps"],
+      ["Yes", "Namaku future la 6 packs vendama"],
+      ["Yes", "Yes"]
+    ];
+
+    let index = 0;
+    let yesSize = 1;
+
+    const questionEl = document.getElementById('question');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const finalScreen = document.getElementById('final');
+    const quiz = document.getElementById('quiz');
+    const booksContainer = document.getElementById('books');
+
+    function loadQuestion() {
+      questionEl.textContent = questions[index];
+      yesBtn.textContent = options[index][0];
+      noBtn.textContent = options[index][1];
+    }
+
+    noBtn.addEventListener('click', () => {
+      if (index < questions.length - 1) {
+        index++;
+        loadQuestion();
+        yesSize += 0.2;
+        yesBtn.style.transform = `scale(${yesSize})`;
+      } else {
+        showFinal();
+      }
+    });
+
+    yesBtn.addEventListener('click', () => {
+      showFinal();
+    });
+
+    function showFinal() {
+      quiz.style.display = 'none';
+      finalScreen.style.display = 'flex';
+      // Generate flying books
+      for (let i = 0; i < 20; i++) {
+        const book = document.createElement('div');
+        book.classList.add('book');
+        book.style.left = Math.random() * window.innerWidth + 'px';
+        book.style.animationDuration = (3 + Math.random() * 4) + 's';
+        booksContainer.appendChild(book);
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
